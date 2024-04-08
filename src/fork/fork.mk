@@ -13,7 +13,7 @@
 FORK_DIR		= fork
 
 FORK_HEADER		= fork.h
-FORK_FILE		= fork.c
+FORK_FILE		= fork.c fork_read_extension.c fork_send_extension.c 
 
 FORK			= $(addprefix $(FORK_DIR)/, $(FORK_FILE))
 FORK_HEAD		= $(addprefix $(FORK_DIR)/, $(FORK_HEADER))

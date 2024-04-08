@@ -1,19 +1,19 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    utils.mk                                           :+:      :+:    :+:    #
+#    fork.mk                                            :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/04/01 21:30:53 by marvin            #+#    #+#              #
-#    Updated: 2024/04/01 21:30:53 by marvin           ###   ########.fr        #
+#    Created: 2024/04/07 20:23:13 by marvin            #+#    #+#              #
+#    Updated: 2024/04/07 20:23:13 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-UTILS_DIR		= utils
+PIPE_DIR		= pipe
 
-UTILS_HEADER	= utils.h
-UTILS_FILE		= utils.c solib.c ft_split.c ft_substr.c ft_strmcat.c
+PIPE_HEADER		= pipe.h
+PIPE_FILE		= pipe.c
 
-UTILS			= $(addprefix $(UTILS_DIR)/, $(UTILS_FILE))
-UTILS_HEAD		= $(addprefix $(UTILS_DIR)/, $(UTILS_HEADER))
+PIPE			= $(addprefix $(PIPE_DIR)/, $(PIPE_FILE))
+PIPE_HEAD		= $(addprefix $(PIPE_DIR)/, $(PIPE_HEADER))

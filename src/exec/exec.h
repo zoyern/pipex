@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type.h                                             :+:      :+:    :+:   */
+/*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/05 02:36:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/05 02:36:54 by marvin           ###   ########.fr       */
+/*   Created: 2024/04/07 20:22:15 by marvin            #+#    #+#             */
+/*   Updated: 2024/04/07 20:22:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef EXEC_H
+# define EXEC_H
 
-#ifndef TYPE_H
-# define TYPE_H
+# include <pipex.h>
 
-# define TRUE 1
-# define FALSE 0
-typedef int	t_bool;
-typedef struct s_solib			t_solib;
-typedef struct s_sofork_child	t_sofork_child;
-typedef struct s_sofork_parent	t_sofork_parent;
-typedef struct s_sofork_pid		t_sofork_pid;
-typedef struct s_sopipe			t_sopipe;
-typedef struct s_solib_memory	t_solib_memory;
-typedef struct s_solib_new		t_solib_new;
+char	*solib_shell(t_solib *solib, char *command);
+int		solib_exec_fd(t_solib *solib, char *command, int read, int write);
 
 #endif

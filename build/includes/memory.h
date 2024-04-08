@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type.h                                             :+:      :+:    :+:   */
+/*   memory.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/05 02:36:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/05 02:36:54 by marvin           ###   ########.fr       */
+/*   Created: 2024/04/05 01:57:56 by marvin            #+#    #+#             */
+/*   Updated: 2024/04/05 01:57:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MEMORY_H
+# define MEMORY_H
 
-#ifndef TYPE_H
-# define TYPE_H
+# include <pipex.h>
 
-# define TRUE 1
-# define FALSE 0
-typedef int	t_bool;
-typedef struct s_solib			t_solib;
-typedef struct s_sofork_child	t_sofork_child;
-typedef struct s_sofork_parent	t_sofork_parent;
-typedef struct s_sofork_pid		t_sofork_pid;
-typedef struct s_sopipe			t_sopipe;
-typedef struct s_solib_memory	t_solib_memory;
-typedef struct s_solib_new		t_solib_new;
+void			solib_memory_init(t_solib *solib);
+t_bool			solib_free(t_solib *solib, void *ptr);
+void			*solib_malloc(t_solib *solib, int size);
+void			solib_memory_add(t_solib *solib, void *ptr);
+void			solib_memory_clear(t_solib *solib);
+t_solib_memory	*solib_memory_free(t_solib *solib, void *ptr);
+void			solib_memory_show(t_solib *solib);
 
 #endif

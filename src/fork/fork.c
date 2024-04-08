@@ -12,87 +12,36 @@
 
 #include <pipex.h>
 
-int write_data_to_pipe2(int fd, void *data, size_t size)
-{
-    if (write(fd, data, size) == -1)
-	{
-        return (perror("pipex: write"), 1);
-	}
-	return (0);
-}
-
-// Fonction pour lire des données depuis un pipe
-int read_data_from_pipe2(int fd, void *data, size_t size)
-{
-    if (read(fd, data, size) == -1)
-	{
-        return (perror("pipex: read"), 1);
-	}
-    return (0);
-}
-
-// 1 ecriture
-// 0 lecture
-
-t_sofork_pipe	*new_pipe(t_solib *solib)
-{
-	int pipefd[2];
-	t_sofork_pipe	*new_pipe;
-
-	new_pipe = (t_sofork_pipe *)solib->malloc(solib, sizeof(t_sofork_pipe));
-	if (pipe(pipefd) == -1)
-        solib->close(solib, EXIT_FAILURE);
-	new_pipe->read = pipefd[0];
-	new_pipe->write = pipefd[1];
-	return (new_pipe);
-}
-
-t_sofork_pipes	*new_pipes(t_solib *solib, t_sofork_pipe *parent, t_sofork_pipe *child)
+t_sofork_pipes	*new_pipes(t_solib *solib)
 {
 	t_sofork_pipes	*new_pipes;
+	t_sopipe	*parent_pipe;
+	t_sopipe	*child_pipe;
+
+	parent_pipe = solib->new->pipe(solib);
+	if (!parent_pipe)
+		return(perror("pipex: pipe"), NULL);
+	child_pipe = solib->new->pipe(solib);
+	if (!parent_pipe)
+		return(perror("pipex: pipe"), close(parent_pipe->read), close(parent_pipe->write), NULL);
 
 	new_pipes = (t_sofork_pipes *)solib->malloc(solib, sizeof(t_sofork_pipes));
-	if (parent->read < 0 || parent->write < 0 || child->read < 0 || child->write < 0)
+	if (parent_pipe->read < 0 || parent_pipe->write < 0 || child_pipe->read < 0 || child_pipe->write < 0)
         solib->close(solib, EXIT_FAILURE);
-	new_pipes->parent = parent;
-	new_pipes->child = child;
+	new_pipes->parent = parent_pipe;
+	new_pipes->child = child_pipe;
 	return (new_pipes);
 }
 
-t_sofork_pipe	*new_pipe_data(t_solib *solib, int pipe_read, int pipe_write)
+int	new_sofork_pipes(t_solib *solib, t_sofork_parent *parent, t_sofork_child *child)
 {
-	t_sofork_pipe	*new_pipe;
-
-	new_pipe = (t_sofork_pipe *)solib->malloc(solib, sizeof(t_sofork_pipe));
-	if (pipe_read < 0 || pipe_write < 0)
-        solib->close(solib, EXIT_FAILURE);
-	new_pipe->read = pipe_read;
-	new_pipe->write = pipe_write;
-	return (new_pipe);
-}
-
-int	myChild(t_solib *solib, t_sofork_child *child)
-{
-	(void)solib;
-	(void)child;
-	return (false);
-}
-
-int	new_sofork_pipe(t_solib *solib, t_sofork_parent *parent, t_sofork_child *child)
-{
-	t_sofork_pipe *parent_pipe;
-	t_sofork_pipe *child_pipe;
-
-	parent_pipe = new_pipe(solib);
-	if (!parent_pipe)
-		return(perror("pipex: pipe"), 1);
-	child_pipe = new_pipe(solib);
-	if (!parent_pipe)
-		return(perror("pipex: pipe"), close(parent_pipe->read), close(parent_pipe->write), 1);
-	parent->pipes = new_pipes(solib, parent_pipe, child_pipe);
-	child->pipes = new_pipes(solib, parent_pipe, child_pipe);
-	parent->this = new_pipe_data(solib, child_pipe->read, parent_pipe->write);
-	child->this = new_pipe_data(solib, parent_pipe->read, child_pipe->write);
+	t_sofork_pipes	*pipes;
+	
+	pipes = new_pipes(solib);
+	parent->pipes = pipes;
+	child->pipes = pipes;
+	parent->this = solib->new->pipe_data(solib, pipes->child->read, pipes->parent->write);
+	child->this = solib->new->pipe_data(solib, pipes->parent->read, pipes->child->write);
 	return (0);
 }
 
@@ -137,21 +86,50 @@ int	new_sofork_fork(t_solib *solib, t_sofork_parent *parent, t_sofork_child *chi
 	return (0);
 }
 
+t_sopipe_send	*sofork_send_init(t_solib *solib)
+{
+	t_sopipe_send	*send;
+
+	send = solib->malloc(solib, sizeof(t_sopipe_send));
+	send->message = write_data_to_pipe;
+	send->integer = sofork_send_int;
+	send->string = sofork_send_string;
+	send->strings = sofork_send_strings;
+	return (send);
+}
+
+t_sopipe_get	*sofork_get_init(t_solib *solib)
+{
+	t_sopipe_get	*get;
+
+	get = solib->malloc(solib, sizeof(t_sopipe_get));
+	get->message = read_data_from_pipe;
+	get->integer = sofork_read_int;
+	get->string = sofork_read_string;
+	get->strings = sofork_read_strings;
+	get->file = sofork_read_file;
+	return (get);
+}
+
 
 t_sofork_parent	*new_fork(t_solib *solib, int (*callback)(t_solib *solib, t_sofork_child *))
 {
-	t_sofork_parent *parent;
-	t_sofork_child *child;
+	t_sofork_parent	*parent;
+	t_sofork_child	*child;
+	t_sopipe_send	*send;
+	t_sopipe_get	*get;
 
 	parent = (t_sofork_parent *)solib->malloc(solib, sizeof(t_sofork_parent));
 	child = (t_sofork_child *)solib->malloc(solib, sizeof(t_sofork_child));
 
-	if (new_sofork_pipe(solib, parent, child))
+	if (new_sofork_pipes(solib, parent, child))
 		exit(EXIT_FAILURE);
-	parent->send = write_data_to_pipe2; // fonction pour envoyer du parent a l'enfant
-	parent->get = read_data_from_pipe2; // fonction pour recevoir de l'enfant au parent
-	child->send = write_data_to_pipe2;
-	child->get = read_data_from_pipe2;
+	send = sofork_send_init(solib);
+	get = sofork_get_init(solib);
+	parent->send = send;
+	parent->get = get;
+	child->send = send;
+	child->get = get;
 	if (new_sofork_fork(solib, parent, child, callback))
 		exit(EXIT_FAILURE);
 	return (parent);

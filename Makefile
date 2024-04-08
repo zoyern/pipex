@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:01:12 by marvin            #+#    #+#              #
-#    Updated: 2024/04/05 03:23:52 by marvin           ###   ########.fr        #
+#    Updated: 2024/04/08 18:25:05 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ include build.mk
 NAME		= pipex
 CFLAG		= -Wall -Wextra -Werror -I./$(BUILD_INCLUDES) -g3 -gdwarf-4
 CC			= cc
+ARGV		= infile "ls -l" "wc -l" outfile
 
 all : $(NAME)
 
@@ -22,10 +23,12 @@ $(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $(BUILD_DIR)/$(NAME) $(CFLAG)
 
 start :
-	make re
-	./$(BUILD_DIR)/$(NAME)
+	@make re
+	@make clear
+	@./$(BUILD_DIR)/$(NAME) $(ARGV)
 
 clear :
+	@clear
 	@echo "42Paris : $(NAME)"
 	@echo ""
 

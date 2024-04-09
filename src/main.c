@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 18:00:14 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/10 00:33:24 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:20:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,42 +65,50 @@ int	pipexchild(t_solib *solib, t_sofork_child *child)
 	int	index;
 	int status;
 	int in;
+	int out;
 
 	commands = child->get->strings(solib, child->this->read);
 	index = child->get->integer(child->this->read);
 	in = child->get->integer(child->this->read);
+	out = child->get->integer(child->this->read);
 	if (index < 0)
 	{
 		printf("command : [invalide command] -- index : %d\n", index);
-		printf("Return process pipe : [%d] -- [%d]\n", in, child->pipes->parent->read);
+		printf("Return process pipe : [%d] -- [%d]\n", in, out);
+		// return du process avant la fin
 		child->send->integer(child->this->write, in);
+		child->send->integer(child->this->write, out);
 		child->send->string(child->this->write, "SUCCES");
 		return (0);
 	}
 	else
 		printf("command : [%s] -- index : %d\n", commands[index], index);
 
-
-
-
-
 	
 	parent = solib->new->fork(solib, pipexchild);
 	parent->send->strings(parent->this->write, commands);
 	parent->send->integer(parent->this->write, index - 1);
 	parent->send->integer(parent->this->write,in);
-	waitpid(parent->pid->child, &status, 0); // il faut que j'ai du
-	// il faut que je recuperer le in de mon parent
-	//in = child->get->integer(child->this->read);
-	int test = child->get->integer(parent->this->read);
-	child->send->integer(child->this->write, child->pipes->parent->read);
-	char *reponse = parent->get->string(solib, parent->this->read);
-	printf("in : %d out : %d | EXECUTION ------- : %s\n",test, child->this->write, commands[index]);
-	printf("%d - last receiveid -- %d : %s\n",status, index - 1, reponse);
+	parent->send->integer(parent->this->write, parent->pipes->child->write);
+	waitpid(parent->pid->child, &status, 0);
+
+	// recevoir les valeur de retour
+	int new_in;
+	int new_out;
+	char *reponse;
+	
+	new_in = parent->get->integer(parent->this->read);
+	new_out = parent->get->integer(parent->this->read);
+	reponse = parent->get->string(solib, parent->this->read);
+	
+	printf("in : %d out : %d | EXECUTION ------- : %s\n",new_in, new_out, commands[index]);
+	printf("%d - LAST REPONSE -- %d -- %d : %s\n",status, new_in, new_out, reponse);
+	child->send->integer(child->this->write, parent->pipes->child->read);
+	child->send->integer(child->this->write, out);
 	child->send->string(child->this->write, commands[index]);
 
 	//execution en dernier
-	solib->exec(solib, commands[index], in,	child->this->write);
+	solib->exec(solib, commands[index], in,	out);
 	return (0);
 }
 
@@ -121,16 +129,21 @@ char	*solib_pipex(t_solib *solib, int in, int out, char **commands)
 
 	(void)out;
 	parent = solib->new->fork(solib, pipexchild);
-	//dup2(out, parent->pipes->child->write);
-	//printf("EXECUTION DE %s\n", *commands);
-	//solib->exec(solib, *commands, in, parent->this->write);
-	//printf("TEST DE %s\n", *commands);
 	parent->send->strings(parent->this->write, commands);
 	parent->send->integer(parent->this->write, lenght - 1);
 	parent->send->integer(parent->this->write, in);
+	parent->send->integer(parent->this->write, out);
 	waitpid(parent->pid->child, &status, 0);
-	int test = parent->get->integer(parent->this->read);
-	printf("pipex %dlast last out : %d receiveid %d: %s\n", test,status, lenght - 1, parent->get->file(solib, parent->this->read, 1024));
+
+	// recevoir les valeur de retour
+	int new_in;
+	int new_out;
+	char *reponse;
+	
+	new_in = parent->get->integer(parent->this->read);
+	new_out = parent->get->integer(parent->this->read);
+	reponse = parent->get->string(solib, parent->this->read);
+	printf("%d -PIPEX LAST REPONSE -- %d -- %d : %s\n",status, new_in, new_out, reponse);
 	printf("enfant terminé ! status : %d\n", status);
 	
 	// recuperer ce qu'il y a dans out pour le return 

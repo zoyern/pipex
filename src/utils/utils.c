@@ -93,14 +93,14 @@ char *get_input(t_solib *solib)
 		return (solib->free(solib, buf), temp);
 }
 
-void	ft_putstrs(char **strs)
+void	ft_putstrs(int fd, char **strs)
 {
-	printf("-----------------\n");
+	dprintf(fd, "-----------------\n");
 	while (*strs)
 	{
-		printf("%s\n", *strs++);
+		dprintf(fd, "%s\n", *strs++);
 	}
-	printf("-----------------\n");
+	dprintf(fd, "-----------------\n");
 }
 
 static int	ft_len(int nbr)

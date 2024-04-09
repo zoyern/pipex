@@ -35,7 +35,7 @@ int sofork_send_strings(int fd, char **data)
 {
 	unsigned long lenght;
 
-	lenght = 1;
+	lenght = 0;
 	while (data[lenght])
 		lenght++;
 	if (sofork_send_int(fd, lenght))

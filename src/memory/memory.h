@@ -17,7 +17,7 @@
 
 void			solib_memory_init(t_solib *solib);
 t_bool			solib_free(t_solib *solib, void *ptr);
-void			*solib_malloc(t_solib *solib, int size);
+void			*solib_malloc(t_solib *solib, unsigned long size);
 void			solib_memory_add(t_solib *solib, void *ptr);
 void			solib_memory_clear(t_solib *solib);
 t_solib_memory	*solib_memory_free(t_solib *solib, void *ptr);

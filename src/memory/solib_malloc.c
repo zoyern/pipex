@@ -12,7 +12,7 @@
 
 # include <pipex.h>
 
-void	*solib_malloc(t_solib *solib, int size)
+void	*solib_malloc(t_solib *solib, unsigned long size)
 {
 	void	*ptr;
 

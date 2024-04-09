@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:01:12 by marvin            #+#    #+#              #
-#    Updated: 2024/04/08 18:25:05 by marvin           ###   ########.fr        #
+#    Updated: 2024/04/09 21:17:44 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ include build.mk
 NAME		= pipex
 CFLAG		= -Wall -Wextra -Werror -I./$(BUILD_INCLUDES) -g3 -gdwarf-4
 CC			= cc
-ARGV		= infile "ls -l" "wc -l" outfile
+ARGV		= infile "ls -la" "grep -o zoyern.*" "awk {print$9}" outfile
+#ARGV		= infile "ls -la" "grep -o 'zoyern.*'" "head -n 6" outfile
 
 all : $(NAME)
 
@@ -43,7 +44,7 @@ fclean : clean
 
 val :
 	@clear
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes ./$(BUILD_DIR)/$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes ./$(BUILD_DIR)/$(NAME) $(ARGV)
 	@echo ""
 
 

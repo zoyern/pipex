@@ -23,7 +23,7 @@ char			*get_input(t_solib *solib);
 char			**ft_split(t_solib *solib, char const *s, char c);
 t_solib			*sonew(int argc, char **argv, char **envp);
 char			*ft_substr(t_solib *solib, char const *s, unsigned int start, size_t len);
-void			ft_putstrs(char **strs);
+void			ft_putstrs(int fd, char **strs);
 void			ft_strmcat(t_solib *solib, char **dst, char *src);
 char			*ft_itoa(t_solib *solib, int n);
 #endif

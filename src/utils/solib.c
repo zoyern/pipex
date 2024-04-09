@@ -41,7 +41,6 @@ int	solib_cmd_init(t_solib *solib, int argc, char **argv, char **envp)
 {
 	t_solib_cmd *cmd;
 
-
 	cmd = (t_solib_cmd *)solib->malloc(solib, sizeof(t_solib_cmd));
 	cmd->name = argv[0];
 	cmd->argc = argc - 1;

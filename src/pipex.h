@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 17:59:30 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/08 21:04:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/09 03:19:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ typedef struct s_solib{
 	int				(*close)(t_solib *solib, int state);
 	char			*(*shell)(t_solib *solib, char *command);
 	int				(*exec)(t_solib *solib, char *command, int read, int write);
-	void			*(*malloc)(t_solib *solib, int size);
+	char			*(*pipex)(t_solib *solib, char *in, char *out, char **commands);
+	char			*(*pipexfd)(t_solib *solib, int in, int out, char **commands);
+	void			*(*malloc)(t_solib *solib, unsigned long size);
 	t_bool			(*free)(t_solib *solib, void *ptr);
 }	t_solib;
 

@@ -42,6 +42,13 @@ int	new_sofork_pipes(t_solib *solib, t_sofork_parent *parent, t_sofork_child *ch
 	child->pipes = pipes;
 	parent->this = solib->new->pipe_data(solib, pipes->child->read, pipes->parent->write);
 	child->this = solib->new->pipe_data(solib, pipes->parent->read, pipes->child->write);
+	printf("|---Parent--------Enfant-----|\n");
+	printf("|   write :%d      write : %d   \n",pipes->parent->write ,pipes->child->write);
+	printf("|   read : %d      read : %d  \n",pipes->parent->read ,  pipes->child->read);
+	printf("|---Parent--------Enfant-----\n");
+	printf("|   write :%d      write : %d   \n",parent->this->write , child->this->write);
+	printf("|   read : %d      read : %d  \n",parent->this->read , child->this->read);
+	printf("|-----------------------------|\n");
 	return (0);
 }
 
@@ -69,7 +76,7 @@ int	new_sofork_fork(t_solib *solib, t_sofork_parent *parent, t_sofork_child *chi
         child->pid->child = getpid();
 		if (callback(solib, child))
 		{
-			perror("pipex: children pid : ");
+			perror("pipex: children pid\n");
 			close_pipe(child->this->read, child->this->write);
 			solib->close(solib, EXIT_FAILURE);
 		}

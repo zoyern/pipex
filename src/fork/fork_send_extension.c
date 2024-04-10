@@ -14,7 +14,8 @@
 
 int sofork_send_int(int fd, int data)
 {
-	if (write_data_to_pipe(fd, &data, sizeof(int)))
+	int integer = data;
+	if (write_data_to_pipe(fd, &integer, sizeof(int)))
 		return (1);
 	return (0);
 }
@@ -33,16 +34,19 @@ int sofork_send_string(int fd, char *data)
 
 int sofork_send_strings(int fd, char **data)
 {
-	unsigned long lenght;
+	int lenght;
 
 	lenght = 0;
-	while (data[lenght])
-		lenght++;
+	if (data)
+		while (data[lenght])
+			lenght++;
 	if (sofork_send_int(fd, lenght))
 		return (1);
 	lenght = 0;
 	while (data[lenght])
+	{
 		if (sofork_send_string(fd, data[lenght++]))
 			return (1);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 17:59:30 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/09 03:19:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/10 19:21:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ typedef struct s_sofork_parent{
 	t_sopipe_send	*send;
 	t_sopipe_get	*get;
 
+	int				status;
+	void			(*wait)(t_sofork_parent *parent, int unlock, int close);
+	void			(*close)(t_sofork_parent *parent);
+	
+
 }	t_sofork_parent;
 
 typedef struct s_solib_memory {
@@ -109,17 +114,27 @@ typedef struct s_solib_cmd
 	char	**envp;
 } t_solib_cmd;
 
+typedef struct s_solib_file
+{
+	int				(*open)(t_solib *solib, int state);
+	int				(*read)(t_solib *solib, int state);
+	int				(*close)(t_solib *solib, int state);
+} t_solib_file;
+
 typedef struct s_solib{
 	t_solib_cmd		*cmd;
 	t_solib_memory	*memory;
 	t_solib_new		*new;
+	t_solib_file	file;
 	int				(*close)(t_solib *solib, int state);
 	char			*(*shell)(t_solib *solib, char *command);
 	int				(*exec)(t_solib *solib, char *command, int read, int write);
-	char			*(*pipex)(t_solib *solib, char *in, char *out, char **commands);
+	void			(*pipex)(t_solib *solib, int in, int out, char **commands);
 	char			*(*pipexfd)(t_solib *solib, int in, int out, char **commands);
 	void			*(*malloc)(t_solib *solib, unsigned long size);
 	t_bool			(*free)(t_solib *solib, void *ptr);
+	int				(*open)(char *path, int flags);
+	char			*(*read_file)(t_solib *solib,  int fd, int size);
 }	t_solib;
 
 #endif

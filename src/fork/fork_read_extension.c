@@ -29,13 +29,15 @@ char *sofork_read_string(t_solib *solib, int fd)
 	int		watch;
 
 	lenght = sofork_read_int(fd);
-	data = (char *)solib->malloc(solib,sizeof(char) * lenght + 1);
+	//printf("---- READ string FD : %d | lenght : %d\n",fd, lenght);
+	data = (char *)solib->malloc(solib,sizeof(char) * (lenght + 1));
 	watch = read(fd, data, lenght);
 	if (watch == -1)
         return (perror("pipex: read string"), NULL);
 	else if (watch != lenght)
 		return (perror("pipex: read string size error"), NULL);
 	data[lenght] = 0;
+	//printf("---- je lis : %d > %d -- %s\n", fd, lenght, data);
 	return (data);
 }
 
@@ -46,13 +48,14 @@ char **sofork_read_strings(t_solib *solib, int fd)
 	char	**data;
 
 	lenght = sofork_read_int(fd);
+	//printf("-- READ STRS FD : %d | lenght : %d\n",fd, lenght);
 	if (lenght < 1)
 		return (NULL);
-	data = (char **)solib->malloc(solib,sizeof(char *) * lenght + 1);
+	data = (char **)solib->malloc(solib,sizeof(char *) * (lenght + 1));
 	i = 0;
 	while (i < lenght)
 		data[i++] = sofork_read_string(solib, fd);
-	data[lenght] = 0;
+	data[i] = 0;
 	return (data);
 }
 

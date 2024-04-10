@@ -42,13 +42,13 @@ int	new_sofork_pipes(t_solib *solib, t_sofork_parent *parent, t_sofork_child *ch
 	child->pipes = pipes;
 	parent->this = solib->new->pipe_data(solib, pipes->child->read, pipes->parent->write);
 	child->this = solib->new->pipe_data(solib, pipes->parent->read, pipes->child->write);
-	printf("|---Parent--------Enfant-----|\n");
+	/*printf("|---Parent--------Enfant-----|\n");
 	printf("|   write :%d      write : %d   \n",pipes->parent->write ,pipes->child->write);
 	printf("|   read : %d      read : %d  \n",pipes->parent->read ,  pipes->child->read);
 	printf("|---Parent--------Enfant-----\n");
 	printf("|   write :%d      write : %d   \n",parent->this->write , child->this->write);
 	printf("|   read : %d      read : %d  \n",parent->this->read , child->this->read);
-	printf("|-----------------------------|\n");
+	printf("|-----------------------------|\n");*/
 	return (0);
 }
 
@@ -56,6 +56,22 @@ void	close_pipe(int fd_read, int fd_write)
 {
 	close(fd_read); // Fermeture du descripteur de fichier en écriture du pipe parent vers enfant
 	close(fd_write);
+}
+
+void	fork_close(t_sofork_parent *parent)
+{
+	close_pipe(parent->pipes->child->read, parent->pipes->child->write);
+	close_pipe(parent->pipes->parent->read, parent->pipes->parent->write);
+	close_pipe(parent->this->read, parent->this->write);
+}
+
+void	fork_wait(t_sofork_parent *parent, int unlock, int close)
+{
+	if (unlock)
+		unlock = WNOHANG;
+	waitpid(parent->pid->child, &parent->status , unlock);
+	if (close)
+		parent->close(parent);
 }
 
 int	new_sofork_fork(t_solib *solib, t_sofork_parent *parent, t_sofork_child *child, int (*callback)(t_solib *solib, t_sofork_child *))
@@ -137,6 +153,8 @@ t_sofork_parent	*new_fork(t_solib *solib, int (*callback)(t_solib *solib, t_sofo
 	parent->get = get;
 	child->send = send;
 	child->get = get;
+	parent->wait = fork_wait;
+	parent->close = fork_close;
 	if (new_sofork_fork(solib, parent, child, callback))
 		exit(EXIT_FAILURE);
 	return (parent);

@@ -12,11 +12,12 @@
 
 # include <pipex.h>
 
-void	solib_memory_init(t_solib *solib)
+int	solib_memory_init(t_solib *solib)
 {
 	solib->memory = (t_solib_memory *)malloc(sizeof(t_solib_memory));
 	if (!solib->memory)
-		solib->close(solib, EXIT_FAILURE);
+		return (1);
 	solib->memory->ptr = NULL;
 	solib->memory->next = NULL;
+	return (0);
 }

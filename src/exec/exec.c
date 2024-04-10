@@ -106,14 +106,14 @@ int	myexecchild(t_solib *solib, t_sofork_child *child)
 int	solib_exec_fd(t_solib *solib, char *command, int read, int write)
 {
 	t_sofork_parent *parent;
-	int	state;
 
 	parent = solib->new->fork(solib, myexecchild);
 	parent->send->integer(parent->this->write, read);
 	parent->send->integer(parent->this->write, write);
 	parent->send->string(parent->this->write, command);
-	waitpid(parent->pid->child, &state, 0);
-	return (write);
+	parent->wait(parent, 0, 0);
+	//parent->close(parent);
+	return (parent->status);
 }
 
 char	*solib_shell(t_solib *solib, char *command)
@@ -126,5 +126,7 @@ char	*solib_shell(t_solib *solib, char *command)
 	parent->send->integer(parent->this->write, parent->pipes->child->write);
 	parent->send->string(parent->this->write, command);
 	result = parent->get->file(solib, parent->this->read, 1024);
+	parent->wait(parent, 0, 0);
+	parent->close(parent);
 	return (result);
 }

@@ -15,8 +15,8 @@ include build.mk
 NAME		= pipex
 CFLAG		= -Wall -Wextra -Werror -I./$(BUILD_INCLUDES) -g3 -gdwarf-4
 CC			= cc
-ARGV		= infile "ls -la" "grep -o zoyern.*" "head -n 5" outfile
-#ARGV		= infile "ls -la" "grep -o 'zoyern.*'" "head -n 6" outfile
+ARGV		= infile "ls -la" "grep -o zoyern.*" "head -n 6" outfile
+#ARGV		= infile "ls -la" outfile
 
 all : $(NAME)
 
@@ -43,10 +43,16 @@ fclean : clean
 
 
 val :
+	@make re
 	@clear
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-origins=yes ./$(BUILD_DIR)/$(NAME) $(ARGV)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BUILD_DIR)/$(NAME) $(ARGV)
 	@echo ""
 
+check : 
+	@make re
+	@clear
+	funcheck -o ./$(BUILD_DIR)/$(NAME) $(ARGV)
+	@echo ""
 
 re: fclean all clear 
 

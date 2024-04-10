@@ -95,6 +95,11 @@ char *get_input(t_solib *solib)
 
 void	ft_putstrs(int fd, char **strs)
 {
+	if (!strs)
+	{
+		dprintf(fd, "-----------------\n(NULL)\n-----------------\n");
+		return ;
+	}
 	dprintf(fd, "-----------------\n");
 	while (*strs)
 	{

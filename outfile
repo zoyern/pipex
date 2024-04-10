@@ -1,13 +1,5 @@
-total 12
-drwxrwxrwx 1 zoyern zoyern 4096 Apr 10 01:13 .
-drwxrwxrwx 1 zoyern zoyern 4096 Apr  5 05:45 ..
-drwxrwxrwx 1 zoyern zoyern 4096 Apr 10 00:33 .git
--rwxrwxrwx 1 zoyern zoyern  430 Apr  5 05:45 .gitignore
-drwxrwxrwx 1 zoyern zoyern 4096 Apr  7 20:20 .vscode
--rwxrwxrwx 1 zoyern zoyern 1663 Apr  9 21:17 Makefile
--rwxrwxrwx 1 zoyern zoyern   40 Apr  1 18:51 README.md
-drwxrwxrwx 1 zoyern zoyern 4096 Apr 10 01:13 build
--rwxrwxrwx 1 zoyern zoyern 1324 Apr  5 02:31 build.mk
--rwxrwxrwx 1 zoyern zoyern    0 Apr  9 20:35 infile
--rwxrwxrwx 1 zoyern zoyern  466 Apr 10 01:04 outfile
-drwxrwxrwx 1 zoyern zoyern 4096 Apr  8 17:26 src
+zoyern zoyern 4096 Apr 10 03:02 .
+zoyern zoyern 4096 Apr  5 05:45 ..
+zoyern zoyern 4096 Apr 10 01:21 .git
+zoyern zoyern  430 Apr  5 05:45 .gitignore
+zoyern zoyern 4096 Apr  7 20:20 .vscode

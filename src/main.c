@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 18:00:14 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/10 01:20:36 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/10 03:01:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	pipexchild(t_solib *solib, t_sofork_child *child)
 	commands = child->get->strings(solib, child->this->read);
 	index = child->get->integer(child->this->read);
 	in = child->get->integer(child->this->read);
-	out = child->get->integer(child->this->read);
+	out = child->get->integer(child->this->read); // garde en memoire
+	printf("index : %d ----- %d\n",index, out);
 	if (index < 0)
 	{
 		printf("command : [invalide command] -- index : %d\n", index);
@@ -89,26 +90,37 @@ int	pipexchild(t_solib *solib, t_sofork_child *child)
 	parent->send->strings(parent->this->write, commands);
 	parent->send->integer(parent->this->write, index - 1);
 	parent->send->integer(parent->this->write,in);
-	parent->send->integer(parent->this->write, parent->pipes->child->write);
+	parent->send->integer(parent->this->write, out);
 	waitpid(parent->pid->child, &status, 0);
 
 	// recevoir les valeur de retour
 	int new_in;
-	int new_out;
+	//int new_out;
 	char *reponse;
 	
 	new_in = parent->get->integer(parent->this->read);
-	new_out = parent->get->integer(parent->this->read);
+	//new_out = parent->get->integer(parent->this->read);
 	reponse = parent->get->string(solib, parent->this->read);
 	
-	printf("in : %d out : %d | EXECUTION ------- : %s\n",new_in, new_out, commands[index]);
-	printf("%d - LAST REPONSE -- %d -- %d : %s\n",status, new_in, new_out, reponse);
-	child->send->integer(child->this->write, parent->pipes->child->read);
-	child->send->integer(child->this->write, out);
+	(void)new_in;
+	//(void)new_out;
+	(void)reponse;
+	//printf("test ----------------------------------------------- %d\n", child->pipes->child->write);
+	child->send->integer(child->this->write, child->pipes->child->read);
+	//child->send->integer(child->this->write, child->pipes->child->write);
 	child->send->string(child->this->write, commands[index]);
 
 	//execution en dernier
-	solib->exec(solib, commands[index], in,	out);
+	if (!commands[index + 1])
+	{
+		printf("in : %d out : %d LAST | STATUS : %d | EXECUTION ------- : %s\n",new_in, out, status,commands[index]);
+		solib->exec(solib, commands[index], new_in,	out);
+	}
+	else
+	{
+		printf("in : %d out : %d | STATUS : %d | EXECUTION ------- : %s\n",new_in, child->pipes->child->write, status,commands[index]);
+		solib->exec(solib, commands[index], new_in,	child->pipes->child->write);
+	}
 	return (0);
 }
 
@@ -137,13 +149,12 @@ char	*solib_pipex(t_solib *solib, int in, int out, char **commands)
 
 	// recevoir les valeur de retour
 	int new_in;
-	int new_out;
+	//int new_out;
 	char *reponse;
 	
 	new_in = parent->get->integer(parent->this->read);
-	new_out = parent->get->integer(parent->this->read);
 	reponse = parent->get->string(solib, parent->this->read);
-	printf("%d -PIPEX LAST REPONSE -- %d -- %d : %s\n",status, new_in, new_out, reponse);
+	printf("%d -PIPEX LAST REPONSE -- %d -- %d : %s\n",status, new_in, out, reponse);
 	printf("enfant terminé ! status : %d\n", status);
 	
 	// recuperer ce qu'il y a dans out pour le return 

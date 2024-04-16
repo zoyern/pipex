@@ -1,14 +1,13 @@
-zoyern zoyern 4096 Apr 10 21:22 .
-zoyern zoyern 4096 Apr  5 05:45 ..
-zoyern zoyern 4096 Apr 10 17:32 .git
-zoyern zoyern  430 Apr  5 05:45 .gitignore
-zoyern zoyern 4096 Apr  7 20:20 .vscode
-zoyern zoyern 1754 Apr 10 21:22 Makefile
-oyern 4096 Apr  7 20:20 .vscode
--rwxrwxrwx 1 zoyern zoyern 1723 Apr 10 21:21 Makefile
+total 8
+drwxrwxrwx 1 zoyern zoyern 4096 Apr 16 23:57 .
+drwxrwxrwx 1 zoyern zoyern 4096 Apr  5 05:45 ..
+drwxrwxrwx 1 zoyern zoyern 4096 Apr 16 23:57 .git
+-rwxrwxrwx 1 zoyern zoyern  430 Apr  5 05:45 .gitignore
+drwxrwxrwx 1 zoyern zoyern 4096 Apr  7 20:20 .vscode
+-rwxrwxrwx 1 zoyern zoyern 1791 Apr 11 16:08 Makefile
 -rwxrwxrwx 1 zoyern zoyern   40 Apr  1 18:51 README.md
-drwxrwxrwx 1 zoyern zoyern 4096 Apr 10 21:21 build
+drwxrwxrwx 1 zoyern zoyern 4096 Apr 16 23:57 build
 -rwxrwxrwx 1 zoyern zoyern 1324 Apr  5 02:31 build.mk
 -rwxrwxrwx 1 zoyern zoyern    0 Apr  9 20:35 infile
--rwxrwxrwx 1 zoyern zoyern  630 Apr 10 21:21 outfile
+-rwxrwxrwx 1 zoyern zoyern  630 Apr 11 16:13 outfile
 drwxrwxrwx 1 zoyern zoyern 4096 Apr 10 16:38 src

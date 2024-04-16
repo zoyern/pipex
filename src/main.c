@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 18:00:14 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/10 20:48:37 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/11 16:13:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ char **get_commands_for_pipex(t_solib *solib)
 	return (0);
 }*/
 
+void	ft_pipex(t_solib *solib, int in, int out, char **commands)
+{
+	solib->exec(solib, *commands, in, out);
+}
+
 int main(int argc, char **argv, char **envp) {
 	t_solib	*solib;
 	char	**commands;
@@ -53,14 +58,19 @@ int main(int argc, char **argv, char **envp) {
 	if (!solib)
 		return (1);
 	commands = get_commands_for_pipex(solib);
+	(void)commands;
 	if (solib->cmd->argc >= 3)
 	{
 		fdin = solib->open(solib->cmd->argv[0], O_RDWR);
 		fdout = solib->open(solib->cmd->argv[solib->cmd->argc - 1], O_RDWR);
 	}
 	printf("fd in : %d -- fd out : %d\n", fdin , fdout);
-	solib->pipex( solib, fdin, fdout, commands);
+	ft_pipex(solib, fdin, fdout, commands);
+	//solib->pipex( solib, fdin, fdout, commands);
+	close(fdin);
+	close(fdout);
 	solib->close(solib, EXIT_SUCCESS);
+	//solib_memory_show(solib);
     return (0);
 }
 

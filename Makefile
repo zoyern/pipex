@@ -45,7 +45,7 @@ fclean : clean
 val :
 	@make re
 	@clear
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BUILD_DIR)/$(NAME) $(ARGV)
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --trace-children=yes --track-origins=yes ./$(BUILD_DIR)/$(NAME) $(ARGV)
 	@echo ""
 
 check : 

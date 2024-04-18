@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solib.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almounib <almounib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 02:41:10 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/05 02:41:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/18 11:07:35 by almounib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int	pipexchild(t_solib *solib, t_sofork_child *child)
 
 void	solib_pipex(t_solib *solib, int in, int out, char **commands)
 {
+	ft_putstrs(1, commands);
 	t_sofork_parent	*parent;
 	int	lenght;
 
@@ -155,6 +156,7 @@ void	solib_pipex(t_solib *solib, int in, int out, char **commands)
 	parent->send->integer(parent->this->write, out);
 	parent->wait(parent, 0, 0);
 	in = parent->get->integer(parent->this->read);
+
 	parent->close(parent);
 }
 

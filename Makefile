@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: almounib <almounib@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/19 16:01:12 by marvin            #+#    #+#              #
-#    Updated: 2024/04/10 03:02:33 by marvin           ###   ########.fr        #
+#    Updated: 2024/04/18 10:50:51 by almounib         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ include build.mk
 NAME		= pipex
 CFLAG		= -Wall -Wextra -Werror -I./$(BUILD_INCLUDES) -g3 -gdwarf-4
 CC			= cc
-ARGV		= infile "ls -la" "grep -o zoyern.*" "head -n 6" outfile
+ARGV		= infile "ls -la" "grep -o almounib.*" "head -n 6" outfile
 #ARGV		= infile "ls -la" outfile
 
 all : $(NAME)

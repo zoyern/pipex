@@ -15,15 +15,11 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_solib		*solib;
-	int			*nbrs;
-	int			len;
 
-	solib = sonew_libft(sonew_types(argc, argv, envp));
+	solib = sonew_types(argc, argv, envp);
 	if (!solib)
 		return (1);
-	if (!solib->libft)
-		return (solib->close(solib, EXIT_FAILURE));
-	if (solib->env->argc == 0)
-		return (solib->close(solib, EXIT_SUCCESS));
+	solib = sonew_libft(solib);
+	solib->print("Hello world !\n");
 	return (solib->close(solib, EXIT_SUCCESS));
 }

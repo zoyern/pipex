@@ -15,5 +15,6 @@
 
 # include <pipex/types.h>
 # include <pipex.h>
+# include <pipex/soexec.h>
 
 #endif

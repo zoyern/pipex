@@ -10,17 +10,19 @@
 #                                                                              #
 # **************************************************************************** #
 
+include src/soexec/soexec.mk
+
 SRC_DIR		=	$(CURDIR)/src
 
 LIB_HEADER	=	$(addprefix $(SRC_DIR)/, pipex.h)
 SRC_HEADER	=	types.h all.h
 SRC_FILES	=	pipex.c
 
-DIR			+= $(PSWP_DIR)
+DIR			+= $(SOEXEC_DIR)
 
-SRC_HEADER	+= $(PSWP_HEAD)
+SRC_HEADER	+= $(SOEXEC_HEAD)
 
-SRC_FILES	+= $(PSWP)
+SRC_FILES	+= $(SOEXEC)
 
 HEADERS		=	$(addprefix $(SRC_DIR)/, $(SRC_HEADER))
 SRC			=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))

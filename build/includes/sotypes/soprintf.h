@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   soprintf.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almounib <almounib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 01:57:56 by marvin            #+#    #+#             */
-/*   Updated: 2024/05/16 12:47:27 by almounib         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:23:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ size_t	soprint_strlen(const char *str);
 void	soprintf_putcolor_len(const char **s, va_list list_arg, size_t *len);
 void	ft_putchar_len(char c, size_t *len);
 void	ft_putstr_len(char *s, size_t *len);
+void	ft_putstrs_len(char **strs, size_t *len);
 void	ft_putnbr_len(int n, size_t *len);
 void	ft_putnbr_len_base(unsigned int n, char *base, size_t *len);
 void	ft_putptr_len(unsigned long n, char *base, size_t *len);

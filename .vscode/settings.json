@@ -1,9 +1,6 @@
 {
 	"files.associations": {
-		"pipex.h": "c",
-		"memory.h": "c",
-		"fork.h": "c",
+		"soprintf.h": "c",
 		"all.h": "c"
-	},
-	"C_Cpp.errorSquiggles": "disabled"
+	}
 }

@@ -19,7 +19,7 @@ start :
 	@make re
 	@make clear
 	@echo "------------------------------------"
-	@./$(NAME) $(filter-out $@, $(MAKECMDGOALS))
+	@./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out
 	@echo "------------------------------------"
 
 %:
@@ -43,7 +43,7 @@ val :
 	@make re
 	@clear
 	@echo "------------------------------------"
-	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --trace-children=yes --track-origins=yes ./$(NAME) $(filter-out $@, $(MAKECMDGOALS))
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out
 	@echo "------------------------------------"
 
 check : 

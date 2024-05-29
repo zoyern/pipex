@@ -15,10 +15,16 @@
 char	**get_commands(t_solib *solib)
 {
 	char	**commands;
+	int		i;
 
-	commands = solib->env->argv;
-	commands++;
+	commands = solib->malloc(solib, sizeof(char *) * (solib->env->argc - 1));
 	commands[solib->env->argc - 2] = 0;
+	i = 0;
+	while (i < solib->env->argc - 2)
+	{
+		commands[i] = solib->libft->strdup(solib, solib->env->argv[i + 1]);
+		i++;
+	}
 	return (commands);
 }
 
@@ -31,8 +37,10 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	solib = sonew_libft(solib);
 	if (solib->env->argc > 3)
-		pipex(solib, solib->env->argv[0], get_commands(solib), solib->env->argv[solib->env->argc - 1]);
+		pipex(solib, solib->env->argv[0],
+			get_commands(solib), solib->env->argv[solib->env->argc - 1]);
 	else
-		solib->print("%Ccf2a84(Wrong number of argument (%C2ab3cf(%d)) needed (%C2ab3cf(%d+)))\n", solib->env->argc, 4);
+		solib->print("%Ccf2a84(Wrong number of argument (%C2ab3cf(%d)) \
+		needed (%C2ab3cf(%d+)))\n", solib->env->argc, 4);
 	return (solib->close(solib, EXIT_SUCCESS));
 }

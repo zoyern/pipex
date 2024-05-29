@@ -15,6 +15,6 @@
 
 # include <pipex/types.h>
 
-void	pipex(t_solib *solib, char *infile, char **commands, char *outfile);
+int	pipex(t_solib *solib, char *infile, char **commands, char *outfile);
 
 #endif

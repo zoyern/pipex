@@ -1,0 +1,58 @@
+# **************************************************************************** #^M$$$$$$$$$$$
+#                                                                              #^M$$$$$$$$$$$
+#                                                         :::      ::::::::    #^M$$$$$$$$$$$
+#    Makefile                                           :+:      :+:    :+:    #^M$$$$$$$$$$$
+#                                                     +:+ +:+         +:+      #^M$$$$$$$$$$$
+#    By: almounib <almounib@student.42.fr>          +#+  +:+       +#+         #^M$$$$$$$$$$$
+#                                                 +#+#+#+#+#+   +#+            #^M$$$$$$$$$$$
+#    Created: 2024/03/19 16:01:12 by marvin            #+#    #+#              #^M$$$$$$$$$$$
+#    Updated: 2024/05/12 22:30:14 by almounib         ###   ########.fr        #^M$$$$$$$$$$$
+#                                                                              #^M$$$$$$$$$$$
+# **************************************************************************** #^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+include build.mk^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+#M-bM-^]M-^VM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PCommandesM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^]M-^V^M$$$$$$$$$$$
+all : $(NAME)^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+start :^M$$$$$$$$$$$
+	@make re^M$$$$$$$$$$$
+	@make clear^M$$$$$$$$$$$
+	@echo "------------------------------------"^M$$$$$$$$$$$
+	@./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out^M$$$$$$$$$$$
+	@echo "------------------------------------"^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+%:^M$$$$$$$$$$$
+	@true^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+clear :^M$$$$$$$$$$$
+	@clear^M$$$$$$$$$$$
+	@echo "42Paris : $(NAME)"^M$$$$$$$$$$$
+	@echo ""^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+clean : clear^M$$$$$$$$$$$
+	@rm -rf build/^M$$$$$$$$$$$
+	@echo "Clean   : *.o in build !"^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+fclean : clean^M$$$$$$$$$$$
+	@rm -f $(NAME)^M$$$$$$$$$$$
+	@echo "Clean   : ./$(NAME)"^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+val :^M$$$$$$$$$$$
+	@make re^M$$$$$$$$$$$
+	@clear^M$$$$$$$$$$$
+	@echo "------------------------------------"^M$$$$$$$$$$$
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out^M$$$$$$$$$$$
+	@echo "------------------------------------"^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+check : ^M$$$$$$$$$$$
+	@make re^M$$$$$$$$$$$
+	@clear^M$$$$$$$$$$$
+	@echo "------------------------------------"^M$$$$$$$$$$$
+	funcheck -o ./$(NAME) $(filter-out $@, $(MAKECMDGOALS))^M$$$$$$$$$$$
+	@echo "------------------------------------"^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+re: fclean all clear ^M$$$$$$$$$$$
+^M$$$$$$$$$$$
+.PHONY: all start clean fclean re val dependencies check

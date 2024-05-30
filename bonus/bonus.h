@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEMPLE_H
-# define EXEMPLE_H
+#ifndef BONUS_H
+# define BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>

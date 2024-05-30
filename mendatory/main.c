@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exemple.h"
+#include "mendatory.h"
 
 char	**get_commands(t_solib *solib)
 {
@@ -36,11 +36,11 @@ int	main(int argc, char **argv, char **envp)
 	if (!solib)
 		return (1);
 	solib = sonew_libft(solib);
-	if (solib->env->argc > 3)
+	if (solib->env->argc == 4)
 		pipex(solib, solib->env->argv[0],
 			get_commands(solib), solib->env->argv[solib->env->argc - 1]);
 	else
 		solib->print("%Ccf2a84(Wrong number of argument (%C2ab3cf(%d)) \
-		needed (%C2ab3cf(%d+)))\n", solib->env->argc, 4);
+		needed (%C2ab3cf(%d)))\n", solib->env->argc, 4);
 	return (solib->close(solib, EXIT_SUCCESS));
 }

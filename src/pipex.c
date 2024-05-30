@@ -15,7 +15,7 @@
 
 int	solib_pipex_openfd(char *path_in, char *path_out, int *in, int *out)
 {
-	*in = open(path_in, O_RDONLY | O_CREAT, 0644);
+	*in = open(path_in, O_RDONLY, 0644);
 	if (*in < 0)
 		return (1);
 	*out = open(path_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -30,6 +30,8 @@ int	pipex(t_solib *solib, char *infile, char **commands, char *outfile)
 	int	fdout;
 	int	status;
 
+	fdin = 0;
+	fdout = 0;
 	if (solib_pipex_openfd(infile, outfile, &fdin, &fdout))
 		return (solib->print("%Ccf2a84(ERROR OPEN FILE) : \
 			\n- %s - %d\n- %s - %d\n", infile, fdin, outfile, fdout), 1);

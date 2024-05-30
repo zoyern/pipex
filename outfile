@@ -1,58 +1,17 @@
-# **************************************************************************** #^M$$$$$$$$$$$
-#                                                                              #^M$$$$$$$$$$$
-#                                                         :::      ::::::::    #^M$$$$$$$$$$$
-#    Makefile                                           :+:      :+:    :+:    #^M$$$$$$$$$$$
-#                                                     +:+ +:+         +:+      #^M$$$$$$$$$$$
-#    By: almounib <almounib@student.42.fr>          +#+  +:+       +#+         #^M$$$$$$$$$$$
-#                                                 +#+#+#+#+#+   +#+            #^M$$$$$$$$$$$
-#    Created: 2024/03/19 16:01:12 by marvin            #+#    #+#              #^M$$$$$$$$$$$
-#    Updated: 2024/05/12 22:30:14 by almounib         ###   ########.fr        #^M$$$$$$$$$$$
-#                                                                              #^M$$$$$$$$$$$
-# **************************************************************************** #^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-include build.mk^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-#M-bM-^]M-^VM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PCommandesM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^UM-^PM-bM-^]M-^V^M$$$$$$$$$$$
-all : $(NAME)^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-start :^M$$$$$$$$$$$
-	@make re^M$$$$$$$$$$$
-	@make clear^M$$$$$$$$$$$
-	@echo "------------------------------------"^M$$$$$$$$$$$
-	@./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out^M$$$$$$$$$$$
-	@echo "------------------------------------"^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-%:^M$$$$$$$$$$$
-	@true^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-clear :^M$$$$$$$$$$$
-	@clear^M$$$$$$$$$$$
-	@echo "42Paris : $(NAME)"^M$$$$$$$$$$$
-	@echo ""^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-clean : clear^M$$$$$$$$$$$
-	@rm -rf build/^M$$$$$$$$$$$
-	@echo "Clean   : *.o in build !"^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-fclean : clean^M$$$$$$$$$$$
-	@rm -f $(NAME)^M$$$$$$$$$$$
-	@echo "Clean   : ./$(NAME)"^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-val :^M$$$$$$$$$$$
-	@make re^M$$$$$$$$$$$
-	@clear^M$$$$$$$$$$$
-	@echo "------------------------------------"^M$$$$$$$$$$$
-	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out^M$$$$$$$$$$$
-	@echo "------------------------------------"^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-check : ^M$$$$$$$$$$$
-	@make re^M$$$$$$$$$$$
-	@clear^M$$$$$$$$$$$
-	@echo "------------------------------------"^M$$$$$$$$$$$
-	funcheck -o ./$(NAME) $(filter-out $@, $(MAKECMDGOALS))^M$$$$$$$$$$$
-	@echo "------------------------------------"^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-re: fclean all clear ^M$$$$$$$$$$$
-^M$$$$$$$$$$$
-.PHONY: all start clean fclean re val dependencies check
+drwxr-xr-x 9 almounib 2023_paris    219 May 30 12:56 .
+drwxr-xr-x 7 almounib 2023_paris     80 May 29 21:38 ..
+drwxr-xr-x 2 almounib 2023_paris     51 May 30 11:09 bonus
+drwxr-xr-x 4 almounib 2023_paris     48 May 30 12:56 build
+-rw-r--r-- 1 almounib 2023_paris   3883 May 30 11:12 build.mk
+drwxr-xr-x 8 almounib 2023_paris    220 May 30 11:58 .git
+-rw-r--r-- 1 almounib 2023_paris      0 May 30 11:14 infile
+drwxr-xr-x 4 almounib 2023_paris     36 May 30 12:56 libs
+-rw-r--r-- 1 almounib 2023_paris   2109 May 30 12:48 Makefile
+drwxr-xr-x 2 almounib 2023_paris     59 May 30 11:08 mendatory
+-rw-r--r-- 1 almounib 2023_paris      0 May 30 12:56 outfile
+-rwxr-xr-x 1 almounib 2023_paris 276568 May 30 12:56 pipex
+-rw-r--r-- 1 almounib 2023_paris      7 May 29 21:15 README.md
+drwxr-xr-x 3 almounib 2023_paris     92 May 29 21:15 src
+-rw-r--r-- 1 almounib 2023_paris    132 May 30 11:56 supp.supp
+-rwxr-xr-x 1 almounib 2023_paris 276601 May 30 11:46 toto
+drwxr-xr-x 2 almounib 2023_paris     27 May 29 21:15 .vscode

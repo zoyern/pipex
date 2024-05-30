@@ -36,6 +36,7 @@ clean : clear
 
 fclean : clean
 	@rm -f $(NAME)
+	@rm -rf libs
 	@echo "Clean   : ./$(NAME)"
 
 
@@ -45,7 +46,7 @@ val :
 	@echo "------------------------------------"
 	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME) in "grep $(filter-out $@, $(MAKECMDGOALS))" "cat" out
 	@echo "------------------------------------"
-
+#valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=supp.supp ./pipex infile cat ls outfile
 check : 
 	@make re
 	@clear

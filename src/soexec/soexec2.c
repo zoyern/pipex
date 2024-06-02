@@ -73,7 +73,6 @@ int	strs_exec(t_solib *solib, int fdin, char **commands, int fdout)
 	int		pipefd[2];
 	int		filefd[2];
 	int		status;
-	int		i;
 
 	if (!commands || !*commands)
 		return (0);

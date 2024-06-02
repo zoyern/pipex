@@ -11,7 +11,8 @@
 # **************************************************************************** #
 
 include src/src.mk
-include exemple/exemple.mk
+include mendatory/mendatory.mk
+include bonus/bonus.mk
 
 #❖═══Setup══════════❖
 NAME		= pipex
@@ -45,7 +46,7 @@ else
 endif
 
 #❖═══Dependencies═══❖
-dependencies:
+dependencies: $(BUILD_INCLUDES)
 	@mkdir -p $(LIBS_DIR)
 	@for dep in $(DEPENDENCIES); do \
 		name=$$(echo $$dep | cut -d ':' -f 1); \
@@ -85,7 +86,12 @@ $(BUILD_INCLUDES):
 	@cp $(HEADERS) $(ALL_B_INCLUDES)
 
 #❖═════Creat═════❖
-$(NAME): $(BUILD_INCLUDES) $(DEPENDENCIES_RULES) $(OBJ)
-	@${AR} $(LIBRARY) ${OBJ}
-	@${LIB} $(LIBRARY)
-	@$(CC) $(SRC_EXEMPLE) $(OBJ) -o $(NAME) $(CFLAG) $(LIBRARYS) $(LIBRARY)
+$(NAME): $(DEPENDENCIES_RULES) $(OBJ)
+	@$(AR) $(LIBRARY) $(OBJ)
+	@$(LIB) $(LIBRARY)
+	@$(CC) $(SRC_MENDATORY) $(OBJ) -o $(NAME) $(CFLAG) $(LIBRARYS) $(LIBRARY)
+
+bonus: $(DEPENDENCIES_RULES) $(OBJ)
+	@$(AR) $(LIBRARY) $(OBJ)
+	@$(LIB) $(LIBRARY)
+	@$(CC) $(SRC_BONUS) $(OBJ) -o $(NAME) $(CFLAG) $(LIBRARYS) $(LIBRARY)

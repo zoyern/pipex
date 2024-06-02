@@ -25,7 +25,8 @@ int	ft_strarrfree(t_solib *solib, char **strarr)
 
 static char	*strarr_prefixchr(t_solib *solib, char **strarr, char *target)
 {
-	while (*strarr && solib->libft->strncmp(target, *strarr, solib->libft->strlen(target)))
+	while (*strarr && solib->libft->strncmp(
+			target, *strarr, solib->libft->strlen(target)))
 		strarr++;
 	return (*strarr);
 }

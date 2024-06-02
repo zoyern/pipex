@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pipex/all.h>
+#include <pipex/all.h>
 
 void	pipe_swap(int pipefd[2], int filefd[2])
 {
@@ -28,16 +28,41 @@ int	exec_fork_child(t_solib *solib, int pipefd[2], char *command)
 	return (str_exec(solib, command));
 }
 
-int	exec_fork(t_solib *solib, int *pid, char *command, int pipefd[2])
+int	exec_fork(t_solib *solib, char *command, int pipefd[2])
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		solib->close(solib, EXIT_FAILURE);
+	if (pid == 0)
+		exit(exec_fork_child(solib, pipefd, command));
+	close(pipefd[0]);
+	close(pipefd[1]);
+	return (0);
+}
+
+int	strs_cmds(t_solib *solib, char **commands, int pipefd[2], int filefd[2])
 {
 	int	status;
+	int	i;
 
-	*pid = fork();
-	if (*pid == -1)
-		solib->close(solib, EXIT_FAILURE);
-	if (*pid == 0)
-		exit(exec_fork_child(solib, pipefd, command));
-	waitpid(*pid, &status, 0);
+	status = 0;
+	i = 0;
+	while (commands[i + 1])
+	{
+		status = exec_fork(solib, commands[i], pipefd);
+		if (pipe(pipefd) == -1)
+			solib->close(solib, EXIT_FAILURE);
+		pipe_swap(pipefd, filefd);
+		i++;
+	}
+	close(pipefd[1]);
+	close(filefd[0]);
+	pipefd[1] = filefd[1];
+	status = exec_fork(solib, commands[i], pipefd);
+	while (wait(&status) != -1)
+		continue ;
 	close(pipefd[0]);
 	close(pipefd[1]);
 	return (status);
@@ -47,7 +72,6 @@ int	strs_exec(t_solib *solib, int fdin, char **commands, int fdout)
 {
 	int		pipefd[2];
 	int		filefd[2];
-	int		pid;
 	int		status;
 	int		i;
 
@@ -57,25 +81,8 @@ int	strs_exec(t_solib *solib, int fdin, char **commands, int fdout)
 	filefd[1] = fdout;
 	filefd[0] = fdin;
 	if (pipe(pipefd) == -1)
-        solib->close(solib, EXIT_FAILURE);
+		solib->close(solib, EXIT_FAILURE);
 	pipe_swap(pipefd, filefd);
-	while (commands[i + 1])
-	{
-		status = exec_fork(solib, &pid, commands[i], pipefd);
-		if (status)
-			break;
-		if (pipe(pipefd) == -1)
-       		solib->close(solib, EXIT_FAILURE);
-		pipe_swap(pipefd, filefd);
-		i++;
-	}
-	if (status)
-		return (status);
-	close(pipefd[1]);
-	close(filefd[0]);
-	pipefd[1] = filefd[1];
-	status = exec_fork(solib, &pid, commands[i], pipefd);
-	if (status)
-		return (status);
-	return (0);
+	status = strs_cmds(solib, commands, pipefd, filefd);
+	return (status);
 }

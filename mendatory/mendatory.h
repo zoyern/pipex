@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   soenv.h                                            :+:      :+:    :+:   */
+/*   exemple.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: almounib <almounib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/05 01:57:56 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/30 18:09:01 by marvin           ###   ########.fr       */
+/*   Created: 2024/04/11 21:27:45 by marvin            #+#    #+#             */
+/*   Updated: 2024/05/20 17:08:42 by almounib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SOENV_H
-# define SOENV_H
+#ifndef MENDATORY_H
+# define MENDATORY_H
 
-# include <sotypes/all.h>
-
-void	sonew_env(t_solib *solib, int argc, char **argv, char **envp);
+# include <unistd.h>
+# include <stdlib.h>
+# include <sotypes.h>
+# include <solibft.h>
+# include <pipex.h>
 
 #endif

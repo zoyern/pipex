@@ -1,0 +1,17 @@
+drwxr-xr-x 9 almounib 2023_paris    219 May 30 12:56 .
+drwxr-xr-x 7 almounib 2023_paris     80 May 29 21:38 ..
+drwxr-xr-x 2 almounib 2023_paris     51 May 30 11:09 bonus
+drwxr-xr-x 4 almounib 2023_paris     48 May 30 12:56 build
+-rw-r--r-- 1 almounib 2023_paris   3883 May 30 11:12 build.mk
+drwxr-xr-x 8 almounib 2023_paris    220 May 30 11:58 .git
+-rw-r--r-- 1 almounib 2023_paris      0 May 30 11:14 infile
+drwxr-xr-x 4 almounib 2023_paris     36 May 30 12:56 libs
+-rw-r--r-- 1 almounib 2023_paris   2109 May 30 12:48 Makefile
+drwxr-xr-x 2 almounib 2023_paris     59 May 30 11:08 mendatory
+-rw-r--r-- 1 almounib 2023_paris      0 May 30 12:56 outfile
+-rwxr-xr-x 1 almounib 2023_paris 276568 May 30 12:56 pipex
+-rw-r--r-- 1 almounib 2023_paris      7 May 29 21:15 README.md
+drwxr-xr-x 3 almounib 2023_paris     92 May 29 21:15 src
+-rw-r--r-- 1 almounib 2023_paris    132 May 30 11:56 supp.supp
+-rwxr-xr-x 1 almounib 2023_paris 276601 May 30 11:46 toto
+drwxr-xr-x 2 almounib 2023_paris     27 May 29 21:15 .vscode

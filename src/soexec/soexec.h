@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#ifndef SOEXEC_H
+# define SOEXEC_H
 
 # include <pipex/all.h>
 

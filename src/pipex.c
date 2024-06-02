@@ -18,6 +18,7 @@ int	solib_pipex_openfd(char *path_in, char *path_out, int *in, int *out)
 	*in = open(path_in, O_RDONLY, 0644);
 	if (*in < 0)
 	{
+		perror("Open");
 		*in = open("/dev/null", O_RDONLY, 0644);
 		if (*in < 0)
 			return (1);

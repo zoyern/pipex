@@ -15,7 +15,7 @@
 
 # include <pipex/all.h>
 
-int	str_exec(t_solib *solib, char *str);
-int	strs_exec(t_solib *solib, int fdin, char **commands, int fdout);
+int		str_exec(t_solib *solib, char *str);
+void	strs_exec(t_solib *solib, int fdin, char **commands, int fdout);
 
 #endif

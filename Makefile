@@ -36,7 +36,6 @@ clean : clear
 
 fclean : clean
 	@rm -f $(NAME)
-	@rm -rf libs
 	@echo "Clean   : ./$(NAME)"
 
 

@@ -18,5 +18,6 @@
 # include <fcntl.h>
 # include <solibft.h>
 # include <sys/wait.h>
+# include <stdio.h>
 
 #endif

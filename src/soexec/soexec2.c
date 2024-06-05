@@ -46,9 +46,10 @@ int	exec_fork(t_solib *solib, char *command, int pipefd[2], int filefd[2])
 	return (0);
 }
 
-void	strs_cmds(t_solib *solib, char **commands, int pipefd[2], int filefd[2])
+int	strs_cmds(t_solib *solib, char **commands, int pipefd[2], int filefd[2])
 {
 	int	i;
+	int	status;
 
 	i = 0;
 	while (commands[i + 1])
@@ -63,23 +64,24 @@ void	strs_cmds(t_solib *solib, char **commands, int pipefd[2], int filefd[2])
 	close(filefd[0]);
 	pipefd[1] = filefd[1];
 	exec_fork(solib, commands[i], pipefd, filefd);
-	while (wait(0) != -1)
+	while (wait(&status) != -1)
 		continue ;
 	close(pipefd[0]);
 	close(pipefd[1]);
+	return (status);
 }
 
-void	strs_exec(t_solib *solib, int fdin, char **commands, int fdout)
+int	strs_exec(t_solib *solib, int fdin, char **commands, int fdout)
 {
 	int		pipefd[2];
 	int		filefd[2];
 
 	if (!commands || !*commands)
-		return ;
+		return (0);
 	filefd[1] = fdout;
 	filefd[0] = fdin;
 	if (pipe(pipefd) == -1)
 		solib->close(solib, EXIT_FAILURE);
 	pipe_swap(pipefd, filefd);
-	strs_cmds(solib, commands, pipefd, filefd);
+	return (strs_cmds(solib, commands, pipefd, filefd));
 }

@@ -38,6 +38,5 @@ int	pipex(t_solib *solib, char *infile, char **commands, char *outfile)
 	fdout = 0;
 	if (solib_pipex_openfd(infile, outfile, &fdin, &fdout))
 		return (perror("Open"), 1);
-	strs_exec(solib, fdin, commands, fdout);
-	return (0);
+	return (strs_exec(solib, fdin, commands, fdout));
 }

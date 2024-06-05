@@ -23,6 +23,9 @@ CFLAG		= -Wall -Wextra -Werror -I./$(BUILD_INCLUDES) -g3 -gdwarf-4
 AR			= ar rc
 LIB			= ranlib
 
+#❖═══Objet══════════❖
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(BUILD_OBJ)/%.o, $(SRC))
+
 #❖═══Build══════════❖
 BUILD_DIR		= build
 LIBRARY			= $(BUILD_DIR)/$(NAME).a
@@ -45,53 +48,25 @@ else
 	DEPENDENCIES_RULES = 
 endif
 
-#❖═══Dependencies═══❖
-dependencies: $(BUILD_INCLUDES)
-	@mkdir -p $(LIBS_DIR)
-	@for dep in $(DEPENDENCIES); do \
-		name=$$(echo $$dep | cut -d ':' -f 1); \
-		url=$$(echo $$dep | awk -F':' '{print substr($$0, index($$0, ":") + 1)}'); \
-		if [ ! -d $(LIBS_DIR)/$$name ]; then \
-			echo "Cloning $$name..."; \
-			git clone $$url $(LIBS_DIR)/$$name; \
-		else \
-			echo "Pulling $$name..."; \
-			(cd $(LIBS_DIR)/$$name && git pull -f); \
-		fi; \
-	done
-	@$(eval LIBRARYS += $(foreach dep,$(DEPENDENCIES),$(LIBS_DIR)/$(firstword $(subst :, ,$(dep)))/$(BUILD_DIR)/$(firstword $(subst :, ,$(dep))).a))
-	@$(eval LIBS_OBJ += $(foreach dep,$(DEPENDENCIES),$(LIBS_DIR)/$(firstword $(subst :, ,$(dep)))/$(BUILD_DIR)/obj))
-	@$(eval LIBS_INCLUDES += $(foreach dep,$(DEPENDENCIES),$(LIBS_DIR)/$(firstword $(subst :, ,$(dep)))/$(BUILD_DIR)/includes))
-	@$(eval LIBS_HEADER += $(foreach dep,$(DEPENDENCIES),$(LIBS_DIR)/$(firstword $(subst :, ,$(dep)))/$(BUILD_DIR)/includes/$(firstword $(subst :, ,$(dep))).h))
-	@$(eval ALL_L_INCLUDES += $(foreach dep,$(DEPENDENCIES),$(LIBS_DIR)/$(firstword $(subst :, ,$(dep)))/$(BUILD_DIR)/includes/$(firstword $(subst :, ,$(dep)))))
-	@cp $(LIBS_HEADER) $(BUILD_INCLUDES)
-	@cp -r $(ALL_L_INCLUDES) $(BUILD_INCLUDES)
-
-#❖═══Objet══════════❖
-OBJ = $(patsubst $(SRC_DIR)/%.c,$(BUILD_OBJ)/%.o, $(SRC))
-
 #❖═══Folders════════❖
-
-$(BUILD_DIR): 
-	mkdir -p $(dir $@)
-
-$(BUILD_OBJ)/%.o: $(SRC_DIR)/%.c
+$(BUILD_OBJ)/%.o: $(SRC_DIR)/%.c | $(BUILD_INCLUDES)
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAG) -c $< -o $@
 
-$(BUILD_INCLUDES):
-	@mkdir -p $(BUILD_INCLUDES)
-	@mkdir -p $(ALL_B_INCLUDES)
-	@cp $(LIB_HEADER) $(BUILD_INCLUDES)
-	@cp $(HEADERS) $(ALL_B_INCLUDES)
-
 #❖═════Creat═════❖
 $(NAME): $(DEPENDENCIES_RULES) $(OBJ)
-	@$(AR) $(LIBRARY) $(OBJ)
-	@$(LIB) $(LIBRARY)
-	@$(CC) $(SRC_MENDATORY) $(OBJ) -o $(NAME) $(CFLAG) $(LIBRARYS) $(LIBRARY)
+	${AR} $(LIBRARY) ${OBJ} $(LIBRARYS)
+	${LIB} $(LIBRARY)
+	$(CC) $(SRC_MENDATORY) $(OBJ) -o $(NAME) $(CFLAG) $(LIBRARYS) $(LIBRARY) $(LDFLAGS)
 
 bonus: $(DEPENDENCIES_RULES) $(OBJ)
 	@$(AR) $(LIBRARY) $(OBJ)
 	@$(LIB) $(LIBRARY)
 	@$(CC) $(SRC_BONUS) $(OBJ) -o $(NAME) $(CFLAG) $(LIBRARYS) $(LIBRARY)
+
+$(BUILD_INCLUDES):
+	mkdir -p $(BUILD_DIR);
+	mkdir -p $(BUILD_INCLUDES)
+	mkdir -p $(ALL_B_INCLUDES)
+	cp $(LIB_HEADER) $(BUILD_INCLUDES)
+	cp $(HEADERS) $(ALL_B_INCLUDES)

@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_solib		*solib;
 
+	status = 0;
 	solib = sonew_types(argc, argv, envp);
 	if (!solib)
 		return (1);

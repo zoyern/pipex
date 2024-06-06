@@ -23,13 +23,16 @@ void	pipe_swap(int pipefd[2], int filefd[2])
 
 int	exec_fork_child(t_solib *solib, int pipefd[2], int filefd[2], char *command)
 {
+	int	ret;
 	dup2(pipefd[0], 0);
 	dup2(pipefd[1], 1);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	close(filefd[0]);
 	close(filefd[1]);
-	return (str_exec(solib, command));
+	ret = str_exec(solib, command);
+	solib->close(solib, EXIT_FAILURE);
+	return (ret);
 }
 
 int	exec_fork(t_solib *solib, char *command, int pipefd[2], int filefd[2])

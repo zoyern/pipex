@@ -32,11 +32,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_solib		*solib;
 
-	status = 0;
 	solib = sonew_types(argc, argv, envp);
 	if (!solib)
 		return (1);
 	solib = sonew_libft(solib);
+	solib->print("envp : %S\n", solib->env->envp);
 	if (solib->env->argc == 4)
 		pipex(solib, solib->env->argv[0],
 			get_commands(solib), solib->env->argv[solib->env->argc - 1]);

@@ -2,6 +2,7 @@
 	"files.associations": {
 		"soprintf.h": "c",
 		"all.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"cstdlib": "c"
 	}
 }

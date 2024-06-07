@@ -24,6 +24,7 @@ void	pipe_swap(int pipefd[2], int filefd[2])
 int	exec_fork_child(t_solib *solib, int pipefd[2], int filefd[2], char *command)
 {
 	int	ret;
+
 	dup2(pipefd[0], 0);
 	dup2(pipefd[1], 1);
 	close(pipefd[0]);

@@ -36,6 +36,8 @@ static char	*get_cmd(t_solib *solib, char **paths, char *cmd)
 	char	*temp;
 	char	*out;
 
+	if (access(cmd, 0) == 0)
+		return (cmd);
 	while (*paths)
 	{
 		temp = solib->libft->strjoin(solib, *paths, "/");
